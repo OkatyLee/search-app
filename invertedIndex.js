@@ -1,3 +1,19 @@
+const fs = require('fs');
+const path = require('path');
+
+const documentsPath = path.join(__dirname, '../documents');
+
+function readDocuments() {
+    const files = fs.readdirSync(documentsPath); 
+    return files.map(file => {
+        const content = fs.readFileSync(path.join(documentsPath, file), 'utf-8');
+        return { id: file, content };
+    });
+}
+
+
+const documents = readDocuments();
+
 const invertedIndex = {};
 
 function buildInvertedIndex() {
