@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const documentsPath = path.join(__dirname, '../documents');
+const documentsPath = path.join(__dirname, '/documents');
 
 function readDocuments() {
     const files = fs.readdirSync(documentsPath); 
@@ -18,7 +18,12 @@ const invertedIndex = {};
 
 function buildInvertedIndex() {
     documents.forEach(doc => {
-        const words = doc.content.toLowerCase().split(/\W+/);
+        const words = doc.content.toLowerCase().match(/\b\w+\b/g);
+
+        if (!words || words.length === 0) {
+            return []; 
+        }
+
         words.forEach(word => {
             if (!invertedIndex[word]) {
                 invertedIndex[word] = [];
